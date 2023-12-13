@@ -1,23 +1,43 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { ChromePicker } from 'react-color';
 import './App.css';
+
+function ColorPaletteEditor() {
+  const [currentColor, setCurrentColor] = useState('#ffffff');
+  const [palette, setPalette] = useState([]);
+
+  const handleColorChange = (color) => {
+    setCurrentColor(color.hex);
+  };
+
+  const addToPalette = () => {
+    setPalette([...palette, currentColor]);
+  };
+
+  return (
+    <div className="color-palette-editor">
+      <div className="color-picker">
+        <ChromePicker color={currentColor} onChange={handleColorChange} />
+        <button onClick={addToPalette}>Agregar a la paleta</button>
+      </div>
+      <div className="color-palette">
+        {palette.map((color, index) => (
+          <div
+            key={index}
+            className="palette-color"
+            style={{ backgroundColor: color }}
+          ></div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Editor de Paleta de Colores</h1>
+      <ColorPaletteEditor />
     </div>
   );
 }
